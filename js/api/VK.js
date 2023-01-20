@@ -6,7 +6,7 @@
  * */
 class VK {
 
-  static ACCESS_TOKEN = 'vk1.a.jSqyRP6p5lye4_wEZbAiutkq3waoze0IQkUdjBwxUfE68A9XkEtUTG7mbS82GjjCKYQrmI4W-KRlOnn1btefXVBI7EfsneoY2yiHq6Sa97h1RCP0YLKmRMwkoO-InyYbKceXWJ7Xnkis2lWFfQuDsXGaF94frZM7vpz2qAV02vHrdh5yYb40VeMbFCtOAHAmk_L5wwi-9kB7IbpX0tXRmw';
+  static ACCESS_TOKEN = '27bad9b427bad9b427bad9b43f24a8e3fb227ba27bad9b4447829d2307dbddfbfb37fa1';
   static lastCallback;
   static BaseUrl = 'https://api.vk.com/method/'
   
@@ -17,7 +17,7 @@ class VK {
     this.lastCallback = callback;
     const script = document.createElement('script');
     script.id = 'addedScript';
-    script.src = this.BaseUrl + 'photos.get?owner_id=' + id + '&album_id=profile&access_token=' + this.ACCESS_TOKEN + '&v=5.131&callback=VK.processData';
+    script.src = this.BaseUrl + 'photos.get?owner_id=' + id + '&album_id=profile&access_token=' + this.ACCESS_TOKEN + '&rev=1&v=5.131&callback=VK.processData';
     document.getElementsByTagName('body')[0].appendChild(script);
   }
 
@@ -34,27 +34,29 @@ class VK {
     let images = [];
     const types = ['w', 'z', 'y', 'x', 'r', 'q', 'p', 'm', 'o', 's'];
     
-    for (let img of result.response.items) {
-      for (let size of img['sizes']) {
-        images.push(size);
+
+    function biggest(sizes) {
+      for (let type of types) {
+        for (let size of sizes) {
+          if (type === size.type) {
+            return size;
+          }
+        }
       }
     }
 
+    for (let img of result.response.items) {
+      img['sizes'] = biggest(img['sizes']);
+    }
+
     let choosedImages = [];
-    
-    for (let type of types) {
+    for (let item of result.response.items) {
+      choosedImages.push(item.sizes.url);
       if (choosedImages.length === 3) {
         break;
       }
-      for (let img of images) {
-        if (img.type === type) {
-          choosedImages.push(img.url);
-        }
-        if (choosedImages.length === 3) {
-          break;
-        }
-      }
     }
+    
     this.lastCallback(choosedImages);
     this.lastCallback = () => {};
   }

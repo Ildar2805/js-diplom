@@ -60,17 +60,17 @@ class ImageViewer {
     });
 
     document.querySelector('.show-uploaded-files').addEventListener('click', () => {
-      const previewer = App.getModal(filePreviewer);
+      const previewer = App.getModal('filePreviewer');
+      previewer.open();
       const i = document.querySelector('.asterisk.loading.icon.massive');
-      const images = Yandex.getUploadedFiles();
-      previewer.showImages(images);
+      const images = Yandex.getUploadedFiles(previewer.showImages);
     });
 
     document.querySelector('.send').addEventListener('click', () => {
-      const uploader = App.getModal(fileUploader);
-      const selected = this.imagesList.getElementsByClassName('selected');
+      const uploader = App.getModal('fileUploader');
+      const selected = Array.from(this.imagesList.getElementsByClassName('selected'));
       uploader.open();
-      uploader.showImages(images);
+      uploader.showImages(selected);
     });
   }
 
