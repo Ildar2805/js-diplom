@@ -52,9 +52,6 @@ class VK {
     let choosedImages = [];
     for (let item of result.response.items) {
       choosedImages.push(item.sizes.url);
-      if (choosedImages.length === 3) {
-        break;
-      }
     }
     
     this.lastCallback(choosedImages);

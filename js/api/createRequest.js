@@ -30,5 +30,5 @@ const createRequest = (options = {}) => {
     }
     xhr.onloadend = function() {
         options.cb(error, xhr.response);
-    }
+    };
 };

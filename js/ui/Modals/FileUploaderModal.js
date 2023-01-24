@@ -125,7 +125,6 @@ class FileUploaderModal extends BaseModal {
         that.close();
       }
     }
-
     Yandex.uploadFile(path, src, removeClose);
   }
 }
