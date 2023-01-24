@@ -8,9 +8,9 @@ const createRequest = (options = {}) => {
         for (let i=0; i < Object.keys(options.data).length; i++) {
             if (i === 0) {
                 url += '?' + Object.entries(options.data)[i][0] + '=' + Object.entries(options.data)[i][1];
-                
             } else {
-               url += '&' + Object.entries(options.data)[i][0] + '=' + Object.entries(options.data)[i][1];
+                const add = Object.entries(options.data)[i][0] + '=' + Object.entries(options.data)[i][1];
+                url += '&' + add.replace(/&/g, '%26');
             }
         }
     }
